@@ -20,7 +20,7 @@ const useGameInput = (set: SetPuzzleKeyFn, clear: ClearPuzzleKeyFn) => {
         if (isLetter(event.key)) {
           set(settingLetter, event.key);
           setSettingLetter(null);
-        } else if (event.key === " ") {
+        } else if (event.key === " " || event.key === 'Escape') {
           clear(settingLetter);
           setSettingLetter(null);
           event.preventDefault();

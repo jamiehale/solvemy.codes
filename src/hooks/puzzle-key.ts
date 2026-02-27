@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
+import { letters } from '../letters';
 
 export interface PuzzleKeyHook {
   puzzleKey: Record<string, string>;
@@ -12,6 +13,20 @@ export type ClearPuzzleKeyFn = PuzzleKeyHook["clear"];
 
 export const usePuzzleKey = (initialClues: Record<string, string> = {}) => {
   const [puzzleKey, setPuzzleKey] = useState<Record<string, string>>(initialClues);
+
+  const duplicateKeys = useMemo(() => {
+    const keys: Record<string, string[]> = letters.split('').reduce((acc, l) => ({ ...acc, [l]: [] }), {});
+    Object.keys(puzzleKey).forEach(from => {
+      keys[puzzleKey[from]] = [...keys[puzzleKey[from]], from];
+    });
+    const duplicates = Object.keys(keys).reduce<string[]>((acc, key) => {
+      if (keys[key].length > 1) {
+        return [...acc, ...keys[key]];
+      }
+      return acc;
+    }, []);
+    return new Set(duplicates);
+  }, [puzzleKey]);
 
   const reset = useCallback((clues: Record<string, string>) => {
     setPuzzleKey(clues);
@@ -31,6 +46,7 @@ export const usePuzzleKey = (initialClues: Record<string, string> = {}) => {
 
   return {
     puzzleKey,
+    duplicateKeys,
     reset,
     set,
     clear,
