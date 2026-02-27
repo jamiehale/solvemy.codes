@@ -16,8 +16,8 @@ export const PuzzleKey = ({
   settingLetter,
   onReset,
 }: PuzzleKeyProps) => (
-  <Stack>
-    <Stack className="grid grid-cols-4 gap-x-3 gap-y-1">
+  <Stack className="gap-3">
+    <div className="grid grid-cols-4 gap-x-3 gap-y-1">
       {letters.split("").map((l) => (
         <Stack
           horizontal
@@ -31,7 +31,7 @@ export const PuzzleKey = ({
           )}
         </Stack>
       ))}
-    </Stack>
+    </div>
     <Stack horizontal>
       <Button onClick={onReset}>Reset</Button>
     </Stack>
