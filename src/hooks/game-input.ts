@@ -36,8 +36,16 @@ const useGameInput = (set: SetPuzzleKeyFn, clear: ClearPuzzleKeyFn) => {
 
   useEventListener("keydown", handleKeyDown);
 
+  const handleClickLetter = useCallback((l: string) => {
+    if (settingLetter) {
+      clear(settingLetter);
+    }
+    setSettingLetter(l);
+  }, [clear, settingLetter, setSettingLetter])
+
   return {
     settingLetter,
+    handleClickLetter
   };
 };
 

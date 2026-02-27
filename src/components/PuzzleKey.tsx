@@ -7,6 +7,7 @@ interface PuzzleKeyProps {
   puzzleKey: Record<string, string>;
   duplicates: Set<string>;
   settingLetter: string | null;
+  onClick: (l: string) => void;
   onReset: () => void;
 }
 
@@ -14,22 +15,25 @@ export const PuzzleKey = ({
   puzzleKey,
   duplicates,
   settingLetter,
+  onClick,
   onReset,
 }: PuzzleKeyProps) => (
   <Stack className="gap-3">
     <div className="grid grid-cols-4 gap-x-3 gap-y-1">
       {letters.split("").map((l) => (
-        <Stack
-          horizontal
-          className={`border-2 ${settingLetter === l ? "border-red-400" : "border-transparent"} ${puzzleKey[l] && "bg-gray-200"} ${duplicates.has(l) && "bg-red-200"}`}
-        >
-          <Letter>{l}</Letter>=
-          {settingLetter === l ? (
-            <Letter>?</Letter>
-          ) : (
-            <Letter>{puzzleKey[l]}</Letter>
-          )}
-        </Stack>
+        <button type="button" className="cursor-pointer" onClick={() => onClick(l)}>
+          <Stack
+            horizontal
+            className={`border-2 ${settingLetter === l ? "border-red-400" : "border-transparent"} ${puzzleKey[l] && "bg-gray-200"} ${duplicates.has(l) && "bg-red-200"}`}
+          >
+            <Letter>{l}</Letter>=
+            {settingLetter === l ? (
+              <Letter>?</Letter>
+            ) : (
+              <Letter>{puzzleKey[l]}</Letter>
+            )}
+          </Stack>
+        </button>
       ))}
     </div>
     <Stack horizontal>

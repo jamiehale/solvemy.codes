@@ -13,7 +13,7 @@ export const Game = ({ puzzle }: GameProps) => {
   const { puzzleKey, duplicateKeys, reset, set, clear } = usePuzzleKey(
     puzzle.clues,
   );
-  const { settingLetter } = useGameInput(set, clear);
+  const { settingLetter, handleClickLetter } = useGameInput(set, clear);
 
   const handleReset = useCallback(() => {
     reset(puzzle.clues);
@@ -29,6 +29,7 @@ export const Game = ({ puzzle }: GameProps) => {
           puzzleKey={puzzleKey}
           duplicates={duplicateKeys}
           settingLetter={settingLetter}
+          onClick={handleClickLetter}
           onReset={handleReset}
         />
       </div>

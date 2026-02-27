@@ -53,7 +53,7 @@ export const GameSetup = ({ initialPuzzle, onSet }: GameSetupProps) => {
           <div className="flex grow">
             <input
               id="cipher"
-              className='border-1 py-1 px-2 w-[100%]'
+              className='border-1 py-1 px-2 w-[100%] uppercase'
               value={cipher}
               onFocus={handleFocus}
               onChange={handleSetCipher}
