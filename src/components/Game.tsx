@@ -10,7 +10,9 @@ interface GameProps {
 }
 
 export const Game = ({ puzzle }: GameProps) => {
-  const { puzzleKey, duplicateKeys, reset, set, clear } = usePuzzleKey(puzzle.clues);
+  const { puzzleKey, duplicateKeys, reset, set, clear } = usePuzzleKey(
+    puzzle.clues,
+  );
   const { settingLetter } = useGameInput(set, clear);
 
   const handleReset = useCallback(() => {
@@ -18,14 +20,18 @@ export const Game = ({ puzzle }: GameProps) => {
   }, [reset, puzzle.clues]);
 
   return (
-    <div className="flex md:flex-row flex-col gap-3 justify-between border-1">
-      <div className="flex border-0 md:border-r-1 md:border-black">
+    <div className="flex md:flex-row flex-col gap-3 justify-between">
+      <div className="flex grow border-0 md:border-r-1 md:border-black">
         <Board puzzle={puzzle.cipher} puzzleKey={puzzleKey} />
       </div>
-      <div className="flex border-1">
-        <PuzzleKey puzzleKey={puzzleKey} duplicates={duplicateKeys} settingLetter={settingLetter} onReset={handleReset} />
+      <div className="flex shrink-0">
+        <PuzzleKey
+          puzzleKey={puzzleKey}
+          duplicates={duplicateKeys}
+          settingLetter={settingLetter}
+          onReset={handleReset}
+        />
       </div>
     </div>
   );
 };
-
