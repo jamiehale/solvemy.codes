@@ -6,7 +6,7 @@ import type { Puzzle } from '../types';
 import { GameSetup } from './GameSetup';
 import { IfElse } from './IfElse';
 import { useLocalStorage } from '../hooks/local-storage';
-import GitHubLink from './GitHubLink';
+import { GitHubLink } from './GitHubLink';
 
 const thePuzzle: Puzzle = {
   cipher: `qjnra iw . ljpaq`,

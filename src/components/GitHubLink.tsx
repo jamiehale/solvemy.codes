@@ -53,4 +53,3 @@ export const GitHubLink: React.FC<GitHubLinkProps> = (props) => (
   </ >
 );
 
-export default GitHubLink;
