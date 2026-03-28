@@ -20,7 +20,7 @@ export const GameSetup = ({ initialPuzzle, onSet }: GameSetupProps) => {
   const [clueValue, setClueValue] = useState<string>(initialClueValue);
 
   const handleSetCipher = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
-    setCipher(e.target.value);
+    setCipher(e.target.value.toLowerCase());
   }
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
