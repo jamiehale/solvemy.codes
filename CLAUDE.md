@@ -29,7 +29,7 @@ There is no test suite.
 
 - **Workflow:** `.github/workflows/deploy.yaml` runs on push to `main` and by hand. It builds, then runs `wrangler deploy` through `cloudflare/wrangler-action`. Any commit to `main` goes live, except pushes that touch only `openspec/**`, `.claude/**`, `README.md`, or `CLAUDE.md` (`paths-ignore`). Deploys queue; they never overlap.
 - **Hosting:** a Cloudflare Worker with static assets, configured in `wrangler.jsonc` (no script; `assets.directory` is `./dist`). Each deploy replaces the whole site at once. Wrangler's version is pinned in `deploy.yaml`, not in `package.json`; deploy by hand with `npx wrangler@<that version> deploy` after `npm run build`.
-- **Domain:** for now the Worker serves only its `workers.dev` URL (`workers_dev: true`, no `routes`); `solvemy.codes` is still on the old VPS until the cutover.
+- **Domain:** `solvemy.codes` is the Worker's custom domain (`routes` in `wrangler.jsonc`), and its DNS is in Cloudflare. `workers_dev` is off and `www` redirects to the root (a Cloudflare Redirect Rule), so the site has one origin: the saved puzzle lives in `localStorage`, which is per origin.
 - **Environment `production`** (only `main` may deploy):
   - secret: `CLOUDFLARE_API_TOKEN` (limited to the account and the `solvemy.codes` zone: Workers Scripts Edit, Workers Routes Edit)
   - variable: `CLOUDFLARE_ACCOUNT_ID`

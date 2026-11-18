@@ -21,17 +21,17 @@ Pushing branches, opening and merging PRs, and running workflows all reach GitHu
   Verify that the names in the docs match `deploy.yaml` and `wrangler.jsonc`.
 - [x] 1.4 With approval, create the `production` environment with `gh api` (design Decision 5): deployment branch policy allowing only `main`. Verify with `gh api repos/{owner}/{repo}/environments/production` that it exists with a custom branch policy, and that `.../deployment-branch-policies` lists only `main`.
 - [x] 1.5 The user creates the API token (design Decision 5) and sets `CLOUDFLARE_API_TOKEN` (secret) and `CLOUDFLARE_ACCOUNT_ID` (variable) on `production`. Verify that `gh secret list --env production` and `gh variable list --env production` show both names.
-- [ ] 1.6 With approval, push a branch and open a PR, then merge with approval. Verify the push runs the deploy job successfully and that the `workers.dev` URL loads the app, accepts a cipher in setup, and assigns letters by keyboard.
+- [x] 1.6 With approval, push a branch and open a PR, then merge with approval. Verify the push runs the deploy job successfully and that the `workers.dev` URL loads the app, accepts a cipher in setup, and assigns letters by keyboard.
 
 ## 2. Move DNS to Cloudflare
 
-- [ ] 2.1 The user confirms nothing sends mail as `solvemy.codes` (the current SPF includes `sendmetric.com`; see design Risks). Verify `dig +short DS solvemy.codes` still returns nothing.
-- [ ] 2.2 The user adds `solvemy.codes` to Cloudflare and reviews the imported records:
+- [x] 2.1 The user confirms nothing sends mail as `solvemy.codes` (the current SPF includes `sendmetric.com`; see design Risks). Verify `dig +short DS solvemy.codes` still returns nothing.
+- [x] 2.2 The user adds `solvemy.codes` to Cloudflare and reviews the imported records:
   - keep the root A record to `38.111.114.25`, DNS-only (grey cloud)
   - delete everything else, including the `www` CNAME, MX, SPF, and DMARC
   - add the mail records and `www` placeholder from design Decision 6
   - turn on "Always Use HTTPS"
-- [ ] 2.3 The user switches nameservers at the registrar to the two Cloudflare gives. Verify that `dig +short NS solvemy.codes` returns Cloudflare's nameservers, the dashboard shows the zone as active, and `https://solvemy.codes` still loads from the VPS.
+- [x] 2.3 The user switches nameservers at the registrar to the two Cloudflare gives. Verify that `dig +short NS solvemy.codes` returns Cloudflare's nameservers, the dashboard shows the zone as active, and `https://solvemy.codes` still loads from the VPS.
 
 ## 3. Cut over
 
