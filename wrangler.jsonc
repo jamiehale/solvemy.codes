@@ -1,0 +1,10 @@
+{
+  "$schema": "https://unpkg.com/wrangler@4.156.2/config-schema.json",
+  "name": "solvemycodes",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist"
+  },
+  "workers_dev": true,
+  "preview_urls": false
+}
