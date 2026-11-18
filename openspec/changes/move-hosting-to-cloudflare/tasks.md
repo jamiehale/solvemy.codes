@@ -35,7 +35,7 @@ Pushing branches, opening and merging PRs, and running workflows all reach GitHu
 
 ## 3. Cut over
 
-- [ ] 3.1 The user adds Workers Routes Edit on the `solvemy.codes` zone to the API token. Change `wrangler.jsonc` to the cutover form (design Decision 3): add `routes: [{ "pattern": "solvemy.codes", "custom_domain": true }]`, set `workers_dev: false`. Update `CLAUDE.md` and README if they mention `workers.dev`. Verify `npx wrangler@4.156.2 deploy --dry-run` accepts the config. With approval, open a PR.
+- [x] 3.1 The user adds Workers Routes Edit on the `solvemy.codes` zone to the API token. Change `wrangler.jsonc` to the cutover form (design Decision 3): add `routes: [{ "pattern": "solvemy.codes", "custom_domain": true }]`, set `workers_dev: false`. Update `CLAUDE.md` and README if they mention `workers.dev`. Verify `npx wrangler@4.156.2 deploy --dry-run` accepts the config. With approval, open a PR.
 - [ ] 3.2 Cutover, with the user:
   1. The user deletes the root A record in Cloudflare.
   2. Merge the cutover PR at once (with approval).
