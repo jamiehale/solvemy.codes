@@ -16,3 +16,7 @@ npm run build
 ```
 npm run dev
 ```
+
+## Deploy
+
+Every push to `main` (except one that only changes `openspec/`, `.claude/`, `README.md`, or `CLAUDE.md`) builds the site and deploys it to a Cloudflare Worker (static assets, configured in `wrangler.jsonc`) with `wrangler deploy`. The deploy uses the `production` environment, which holds the `CLOUDFLARE_API_TOKEN` secret and the `CLOUDFLARE_ACCOUNT_ID` variable. To roll back, revert the commit on `main`.
