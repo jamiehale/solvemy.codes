@@ -78,12 +78,14 @@ export const guessOf = async (page: Page, letter: string) => {
   return entry.slice(entry.indexOf('=') + 1);
 };
 
-const style = (locator: Locator, property: 'backgroundColor' | 'borderColor' | 'textTransform') =>
+const style = (locator: Locator, property: 'backgroundColor' | 'borderColor' | 'borderTopColor' | 'textTransform') =>
   locator.evaluate((el, p) => getComputedStyle(el)[p], property);
 
 export const background = (locator: Locator) => style(locator, 'backgroundColor');
 
 export const borderColor = (locator: Locator) => style(locator, 'borderColor');
+
+export const borderTopColor = (locator: Locator) => style(locator, 'borderTopColor');
 
 export const textTransform = (locator: Locator) => style(locator, 'textTransform');
 
