@@ -36,19 +36,19 @@ Pushing branches, opening and merging PRs, and running workflows all reach GitHu
 ## 3. Cut over
 
 - [x] 3.1 The user adds Workers Routes Edit on the `solvemy.codes` zone to the API token. Change `wrangler.jsonc` to the cutover form (design Decision 3): add `routes: [{ "pattern": "solvemy.codes", "custom_domain": true }]`, set `workers_dev: false`. Update `CLAUDE.md` and README if they mention `workers.dev`. Verify `npx wrangler@4.156.2 deploy --dry-run` accepts the config. With approval, open a PR.
-- [ ] 3.2 Cutover, with the user:
+- [x] 3.2 Cutover, with the user:
   1. The user deletes the root A record in Cloudflare.
   2. Merge the cutover PR at once (with approval).
   3. Verify the deploy job succeeds and the Worker's settings list `solvemy.codes` as a custom domain.
   4. Verify `https://solvemy.codes` serves the app with a valid certificate, and `curl -sI http://solvemy.codes` redirects to HTTPS.
   5. Verify a saved puzzle in a browser that used the site before the cutover is still there.
   6. Verify the `workers.dev` URL no longer serves the app.
-- [ ] 3.3 The user adds the `www` Redirect Rule (design Decision 6). Verify that `curl -sI https://www.solvemy.codes/x?y=1` returns 301 with `location: https://solvemy.codes/x?y=1`.
+- [x] 3.3 The user adds the `www` Redirect Rule (design Decision 6). Verify that `curl -sI https://www.solvemy.codes/x?y=1` returns 301 with `location: https://solvemy.codes/x?y=1`.
 
 ## 4. Clean up
 
-- [ ] 4.1 The user deletes the `FTP_HOST`, `FTP_USER`, `FTP_PASS`, and `FTP_PORT` repo secrets. Verify `gh secret list` shows no repo secrets, and `gh secret list --env production` still shows `CLOUDFLARE_API_TOKEN`.
-- [ ] 4.2 The user removes `solvemy.codes` from the VPS's DNS and web server config. Verify that `https://solvemy.codes` still loads and `dig +short solvemy.codes` returns Cloudflare addresses, not `38.111.114.25`.
+- [x] 4.1 The user deletes the `FTP_HOST`, `FTP_USER`, `FTP_PASS`, and `FTP_PORT` repo secrets. Verify `gh secret list` shows no repo secrets, and `gh secret list --env production` still shows `CLOUDFLARE_API_TOKEN`.
+- [x] 4.2 The user removes `solvemy.codes` from the VPS's DNS and web server config. Verify that `https://solvemy.codes` still loads and `dig +short solvemy.codes` returns Cloudflare addresses, not `38.111.114.25`.
 
 ## Workflow follow-up
 
