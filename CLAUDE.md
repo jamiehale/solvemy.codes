@@ -43,16 +43,17 @@ Use npm (`package-lock.json`); the Node version is pinned in `.nvmrc`.
 
 - **TypeScript stays on 6.0** (`~6.0.x`): `typescript-eslint` supports only TypeScript `<6.1.0`. Move to 7 when it does.
 
-## Deploy
+## CI and deploy
 
-- **Workflow:** `.github/workflows/deploy.yaml` runs on push to `main` and by hand. It builds, then runs `wrangler deploy` through `cloudflare/wrangler-action`. Any commit to `main` goes live, except pushes that touch only `openspec/**`, `.claude/**`, `README.md`, or `CLAUDE.md` (`paths-ignore`). Deploys queue; they never overlap.
+- **CI:** `.github/workflows/ci.yml` runs on every pull request and is also called by the deploy workflow. It runs `npm ci`, `npx vitest run`, `npm run lint`, `npm run build`, and `npm run test:e2e`, then uploads `dist/` as the `dist` artifact (and the Playwright report on failure). Node comes from `.nvmrc`. It is pinned to `runs-on: ubuntu-24.04` because the visual baselines pass there; moving to a newer image is a deliberate change that needs the visual suite checked first.
+- **Deploy:** `.github/workflows/deploy.yaml` runs on push to `main` and by hand. It runs CI first, then deploys that exact `dist` artifact without rebuilding: the deploy job checks out only `wrangler.jsonc` and runs `wrangler deploy` through `cloudflare/wrangler-action`. A commit whose tests fail doesn't go live. Pushes that touch only `openspec/**`, `.claude/**`, `README.md`, or `CLAUDE.md` don't deploy (`paths-ignore`). Deploys queue; they never overlap.
 - **Hosting:** a Cloudflare Worker with static assets, configured in `wrangler.jsonc` (no script; `assets.directory` is `./dist`). Each deploy replaces the whole site at once. Wrangler's version is pinned in `deploy.yaml`, not in `package.json`; deploy by hand with `npx wrangler@<that version> deploy` after `npm run build`.
 - **Domain:** `solvemy.codes` is the Worker's custom domain (`routes` in `wrangler.jsonc`), and its DNS is in Cloudflare. `workers_dev` is off and `www` redirects to the root (a Cloudflare Redirect Rule), so the site has one origin: the saved puzzle lives in `localStorage`, which is per origin.
 - **Environment `production`** (only `main` may deploy):
   - secret: `CLOUDFLARE_API_TOKEN` (limited to the account and the `solvemy.codes` zone: Workers Scripts Edit, Workers Routes Edit)
   - variable: `CLOUDFLARE_ACCOUNT_ID`
 - **Rehearsal:** `npx wrangler@<pinned> deploy --dry-run` after a build reads the config and lists the assets without uploading.
-- **Rollback:** revert the commit on `main`; the push redeploys. For an instant rollback, roll back in the Cloudflare dashboard (or `wrangler rollback`), then still revert on `main`.
+- **Rollback:** revert the commit on `main`; the push redeploys the previous build. For an instant rollback, roll back in the Cloudflare dashboard (or `wrangler rollback`), then still revert on `main`.
 
 ## OpenSpec
 
