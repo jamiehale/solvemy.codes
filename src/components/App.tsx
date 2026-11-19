@@ -20,8 +20,6 @@ export const App = () => {
   const [editing, setEditing] = useState(true);
   const [storedPuzzle, setStoredPuzzle] = useLocalStorage('puzzle', thePuzzle);
 
-  console.log({ storedPuzzle })
-
   const handleSetPuzzle = (newPuzzle: Puzzle) => {
     setStoredPuzzle(newPuzzle);
     setEditing(false);
