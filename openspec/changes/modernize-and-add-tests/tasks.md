@@ -31,7 +31,7 @@ From group 5 on, "passes the gate" means `npx vitest run`, `npm run lint`, `npm 
 
 ## 5. Dependency upgrades
 
-- [ ] 5.1 Minor/patch bumps: `react`/`react-dom` 19.3, `tailwindcss`/`@tailwindcss/vite` 4.3, `@types/react`, `@types/react-dom`, `typescript-eslint`, `eslint-plugin-react-hooks` 7.1, `eslint`/`@eslint/js` latest 9.39. Verify that `npm ls` shows no peer conflicts and the change passes the gate.
+- [x] 5.1 Minor/patch bumps: `react`/`react-dom` 19.3, `tailwindcss`/`@tailwindcss/vite` 4.3, `@types/react`, `@types/react-dom`, `typescript-eslint`, `eslint-plugin-react-hooks` 7.1, `eslint`/`@eslint/js` latest 9.39. Verify that `npm ls` shows no peer conflicts and the change passes the gate.
 - [ ] 5.2 Vite 8 and `@vitejs/plugin-react` 6 together. Verify that the change passes the gate, and that `npm run build && npx playwright test` against `npm run preview` (point `webServer` at it for one run, then restore) passes with zero snapshot updates.
 - [ ] 5.3 ESLint 10, `@eslint/js` 10, `globals` 17, `eslint-plugin-react-refresh` 0.5 (`configs.vite()` is now a function). Fix only trivial, behavior-neutral findings; disable the rest per line with a reason. Verify that the change passes the gate.
 - [ ] 5.4 TypeScript 6.0 (latest 6.0.x, the newest `typescript-eslint` supports) and `@types/node` 26. Verify that `tsc -b` prints no deprecation warnings and the change passes the gate.
