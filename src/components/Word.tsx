@@ -1,3 +1,4 @@
+import type { PuzzleKey } from '../puzzle-key';
 import { Stack } from './Stack';
 import { Pair } from './Pair';
 import { isLetter } from '../letters';
@@ -5,7 +6,7 @@ import { isLetter } from '../letters';
 interface WordProps {
   className?: string;
   word: string;
-  puzzleKey: Record<string, string>;
+  puzzleKey: PuzzleKey;
 }
 
 export const Word = ({

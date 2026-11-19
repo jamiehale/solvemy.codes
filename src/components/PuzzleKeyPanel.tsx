@@ -1,10 +1,11 @@
+import type { PuzzleKey } from "../puzzle-key";
 import { Button } from "./Button";
 import { Letter } from "./Letter";
 import { letters } from "../letters";
 import { Stack } from "./Stack";
 
 interface PuzzleKeyPanelProps {
-  puzzleKey: Record<string, string>;
+  puzzleKey: PuzzleKey;
   duplicateGuesses: Set<string>;
   selectedLetter: string | null;
   onClick: (l: string) => void;

@@ -1,8 +1,9 @@
+import type { PuzzleKey } from '../puzzle-key';
 import { Word } from './Word';
 
 interface BoardProps {
   puzzle: string;
-  puzzleKey: Record<string, string>;
+  puzzleKey: PuzzleKey;
 }
 
 export const Board = ({

@@ -1,8 +1,8 @@
 import { useState, useCallback, useMemo } from "react";
-import { findDuplicateGuesses, withGuess, withoutGuess } from "../puzzle-key";
+import { findDuplicateGuesses, withGuess, withoutGuess, type PuzzleKey } from "../puzzle-key";
 
 export interface PuzzleKeyHook {
-  puzzleKey: Record<string, string>;
+  puzzleKey: PuzzleKey;
   reset: (clues: Record<string, string>) => void;
   set: (key: string, value: string) => void;
   clear: (key: string) => void;
@@ -13,7 +13,7 @@ export type ClearPuzzleKeyFn = PuzzleKeyHook["clear"];
 
 export const usePuzzleKey = (initialClues: Record<string, string> = {}) => {
   const [puzzleKey, setPuzzleKey] =
-    useState<Record<string, string>>(initialClues);
+    useState<PuzzleKey>(initialClues);
 
   const duplicateGuesses = useMemo(() => findDuplicateGuesses(puzzleKey), [puzzleKey]);
 
