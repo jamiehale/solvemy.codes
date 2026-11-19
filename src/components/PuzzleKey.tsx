@@ -21,7 +21,7 @@ export const PuzzleKey = ({
   <Stack className="gap-3">
     <div data-testid="key" className="grid grid-cols-4 gap-x-3 gap-y-1">
       {letters.split("").map((l) => (
-        <button type="button" data-key={l} className="cursor-pointer" onClick={() => onClick(l)}>
+        <button key={l} type="button" data-key={l} className="cursor-pointer" onClick={() => onClick(l)}>
           <Stack
             horizontal
             className={`border-2 ${settingLetter === l ? "border-red-400" : "border-transparent"} ${puzzleKey[l] && "bg-gray-200"} ${duplicates.has(l) && "bg-red-200"}`}

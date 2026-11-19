@@ -71,7 +71,8 @@ Steps, one commit each: (a) minor/patch bumps (`react`/`react-dom` 19.3, `tailwi
 
 - Shift + letter in Clue Letter or Clue Value stores a capital. A capital clue letter never matches the lowercase cipher, and a capital clue value makes the game crash on Done (duplicate detection looks up a letter outside a–z). Not specified; candidate follow-up: lowercase the clue fields like the cipher field.
 - Clicking a key entry while another letter is selected clears the selected letter's guess. Specified as is in `letter-assignment`.
-- Key entries have no React `key` (dev console warning), entry class strings include `undefined`/`false`, `Button` accepts an unused `color` prop, and `App` logs the puzzle on every render.
+- Entry class strings include `undefined`/`false`, `Button` accepts an unused `color` prop, and `App` logs the puzzle on every render.
+- Fixed during apply: key entries had no React `key`. Vite 8 forwards browser console errors to the dev server's output, so the warning flooded every e2e run; adding `key={l}` changes no behavior.
 
 ## Risks / Trade-offs
 
