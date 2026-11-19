@@ -59,3 +59,7 @@ Use npm (`package-lock.json`); the Node version is pinned in `.nvmrc`.
 ## OpenSpec
 
 The repo uses OpenSpec (`openspec/`, spec-driven schema) for planning changes. Use the `openspec-*` / `opsx:*` skills to propose, apply, and archive changes.
+
+After archiving a change, clean up what was made for it and is no longer needed: remove its git worktrees, delete local branches that have been merged into `main`, and delete temporary files (scratch scripts, captured test output, stray `dist/` or `test-results/` from its runs). Check that a branch is merged before deleting it: PRs are squash-merged, so `git branch --merged main` won't list it; check instead that its PR merged at the branch's head commit (`gh pr view <n> --json state,headRefOid`). List what you removed.
+
+A PR that touches only paths in `deploy.yaml`'s `paths-ignore` (`openspec/**`, `.claude/**`, `README.md`, `CLAUDE.md`) can't deploy, so you may merge it yourself (squash) once its CI passes, without asking. Any PR that touches anything else needs the user to merge it or say to.

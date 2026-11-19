@@ -47,7 +47,7 @@ From group 5 on, "passes the gate" means `npx vitest run`, `npm run lint`, `npm 
 ## 7. Integration check
 
 - [x] 7.1 From a clean checkout under Node 26, run `npm ci` and the full gate. Verify all pass with no snapshot updates.
-- [ ] 7.2 After merge, check the deploy run: CI ran first, the deploy job used CI's `dist` artifact, and https://solvemy.codes loads and solves the default puzzle.
+- [x] 7.2 After merge, check the deploy run: CI ran first, the deploy job used CI's `dist` artifact, and https://solvemy.codes loads and solves the default puzzle.
 
 ## Workflow follow-up
 
