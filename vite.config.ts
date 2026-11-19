@@ -9,6 +9,14 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  server: {
+    port: 5173,
+    strictPort: true,
+  },
+  preview: {
+    port: 5173,
+    strictPort: true,
+  },
   test: {
     environment: 'node',
     include: ['src/**/*.test.ts'],

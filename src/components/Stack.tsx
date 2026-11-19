@@ -1,11 +1,9 @@
-import type { PropsWithChildren } from "react";
+import type { ComponentProps } from "react";
 
-interface StackProps {
-  className?: string;
+interface StackProps extends ComponentProps<"div"> {
   horizontal?: boolean;
 }
 
-export const Stack = ({ className, horizontal, children }: PropsWithChildren<StackProps>) => (
-  <div className={`flex ${horizontal ? 'flex-row' : 'flex-col'} ${className}`}>{children}</div>
+export const Stack = ({ className, horizontal, children, ...rest }: StackProps) => (
+  <div {...rest} className={`flex ${horizontal ? 'flex-row' : 'flex-col'} ${className}`}>{children}</div>
 )
-
