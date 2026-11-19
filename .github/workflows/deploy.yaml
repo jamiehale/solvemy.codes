@@ -16,7 +16,11 @@ permissions:
   contents: read
 
 jobs:
-  build-and-deploy:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    needs: ci
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment:
@@ -28,20 +32,18 @@ jobs:
       cancel-in-progress: false
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js 23
-        uses: actions/setup-node@v4
+      # The job needs only the Worker config; the site itself is CI's build artifact
+      - name: Check out Worker config
+        uses: actions/checkout@v7
         with:
-          node-version: 23
-          cache: npm
+          sparse-checkout: wrangler.jsonc
+          sparse-checkout-cone-mode: false
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
+      - name: Download build
+        uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist
 
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v4
