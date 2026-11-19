@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Stack } from './Stack';
-import { Game } from './Game';
+import { Solving } from './Solving';
 import { Button } from './Button';
 import type { Puzzle } from '../types';
-import { GameSetup } from './GameSetup';
+import { Setup } from './Setup';
 import { IfElse } from './IfElse';
 import { useLocalStorage } from '../hooks/local-storage';
 import { GitHubLink } from './GitHubLink';
@@ -37,10 +37,10 @@ export const App = () => {
       <Stack className='p-4 gap-5'>
         <h1 className='font-mono text-lg'>solve my . codes</h1>
         <IfElse condition={editing} renderIf={() => (
-          <GameSetup initialPuzzle={storedPuzzle} onSet={handleSetPuzzle} />
+          <Setup initialPuzzle={storedPuzzle} onSet={handleSetPuzzle} />
         )} renderElse={() => (
           <Stack className='gap-4'>
-            <Game puzzle={storedPuzzle} />
+            <Solving puzzle={storedPuzzle} />
             <Stack horizontal>
               <Button
                 onClick={() => {

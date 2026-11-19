@@ -69,12 +69,12 @@ export const readPairs = async (page: Page) => {
 
 export const words = (page: Page) => page.getByTestId('board').locator(':scope > div');
 
-export const keyEntry = (page: Page, letter: string) => page.locator(`[data-key="${letter}"]`);
+export const puzzleKeyEntry = (page: Page, letter: string) => page.locator(`[data-puzzle-key-entry="${letter}"]`);
 
-export const keyText = (page: Page, letter: string) => text(keyEntry(page, letter));
+export const puzzleKeyText = (page: Page, letter: string) => text(puzzleKeyEntry(page, letter));
 
 export const guessOf = async (page: Page, letter: string) => {
-  const entry = await keyText(page, letter);
+  const entry = await puzzleKeyText(page, letter);
   return entry.slice(entry.indexOf('=') + 1);
 };
 
@@ -87,11 +87,11 @@ export const borderColor = (locator: Locator) => style(locator, 'borderColor');
 
 export const textTransform = (locator: Locator) => style(locator, 'textTransform');
 
-export const keyBackground = (page: Page, letter: string) =>
-  background(keyEntry(page, letter).locator(':scope > div'));
+export const puzzleKeyBackground = (page: Page, letter: string) =>
+  background(puzzleKeyEntry(page, letter).locator(':scope > div'));
 
-export const keyBorder = (page: Page, letter: string) =>
-  borderColor(keyEntry(page, letter).locator(':scope > div'));
+export const puzzleKeyBorder = (page: Page, letter: string) =>
+  borderColor(puzzleKeyEntry(page, letter).locator(':scope > div'));
 
 export const transparent = 'rgba(0, 0, 0, 0)';
 

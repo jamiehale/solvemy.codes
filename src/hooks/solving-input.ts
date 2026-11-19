@@ -11,42 +11,42 @@ const useEventListener = <K extends keyof WindowEventMap>(type: K, onEvent: (eve
   }, [type, onEvent]);
 };
 
-const useGameInput = (set: SetPuzzleKeyFn, clear: ClearPuzzleKeyFn) => {
-  const [settingLetter, setSettingLetter] = useState<string | null>(null);
+const useSolvingInput = (set: SetPuzzleKeyFn, clear: ClearPuzzleKeyFn) => {
+  const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (settingLetter) {
+      if (selectedLetter) {
         if (isLetter(event.key)) {
-          set(settingLetter, event.key);
-          setSettingLetter(null);
+          set(selectedLetter, event.key);
+          setSelectedLetter(null);
         } else if (event.key === " " || event.key === 'Escape') {
-          clear(settingLetter);
-          setSettingLetter(null);
+          clear(selectedLetter);
+          setSelectedLetter(null);
           event.preventDefault();
         }
       } else {
         if (isLetter(event.key)) {
-          setSettingLetter(event.key);
+          setSelectedLetter(event.key);
         }
       }
     },
-    [settingLetter, setSettingLetter, set, clear]
+    [selectedLetter, setSelectedLetter, set, clear]
   );
 
   useEventListener("keydown", handleKeyDown);
 
   const handleClickLetter = useCallback((l: string) => {
-    if (settingLetter) {
-      clear(settingLetter);
+    if (selectedLetter) {
+      clear(selectedLetter);
     }
-    setSettingLetter(l);
-  }, [clear, settingLetter, setSettingLetter])
+    setSelectedLetter(l);
+  }, [clear, selectedLetter, setSelectedLetter])
 
   return {
-    settingLetter,
+    selectedLetter,
     handleClickLetter
   };
 };
 
-export default useGameInput;
+export default useSolvingInput;

@@ -1,19 +1,19 @@
 import { useCallback } from "react";
-import useGameInput from "../hooks/game-input";
+import useSolvingInput from "../hooks/solving-input";
 import { usePuzzleKey } from "../hooks/puzzle-key";
 import { Board } from "./Board";
 import type { Puzzle } from "../types";
-import { PuzzleKey } from "./PuzzleKey";
+import { PuzzleKeyPanel } from "./PuzzleKeyPanel";
 
-interface GameProps {
+interface SolvingProps {
   puzzle: Puzzle;
 }
 
-export const Game = ({ puzzle }: GameProps) => {
-  const { puzzleKey, duplicateKeys, reset, set, clear } = usePuzzleKey(
+export const Solving = ({ puzzle }: SolvingProps) => {
+  const { puzzleKey, duplicateGuesses, reset, set, clear } = usePuzzleKey(
     puzzle.clues,
   );
-  const { settingLetter, handleClickLetter } = useGameInput(set, clear);
+  const { selectedLetter, handleClickLetter } = useSolvingInput(set, clear);
 
   const handleReset = useCallback(() => {
     reset(puzzle.clues);
@@ -25,10 +25,10 @@ export const Game = ({ puzzle }: GameProps) => {
         <Board puzzle={puzzle.cipher} puzzleKey={puzzleKey} />
       </div>
       <div className="flex shrink-0">
-        <PuzzleKey
+        <PuzzleKeyPanel
           puzzleKey={puzzleKey}
-          duplicates={duplicateKeys}
-          settingLetter={settingLetter}
+          duplicateGuesses={duplicateGuesses}
+          selectedLetter={selectedLetter}
           onClick={handleClickLetter}
           onReset={handleReset}
         />

@@ -9,10 +9,10 @@ test('setup form', async ({ page }) => {
   await expect(page).toHaveScreenshot('setup.png', { fullPage: true });
 });
 
-test('game with guesses', async ({ page }) => {
+test('solving with guesses', async ({ page }) => {
   await solve(page);
   await type(page, 'jonlrvaeimwylcpd');
-  await expect(page).toHaveScreenshot('game.png', { fullPage: true });
+  await expect(page).toHaveScreenshot('solving.png', { fullPage: true });
 });
 
 test('selected letter', async ({ page }) => {
@@ -28,7 +28,7 @@ test('duplicate guesses', async ({ page }) => {
   await expect(page).toHaveScreenshot('duplicates.png', { fullPage: true });
 });
 
-test('narrow game', async ({ page }) => {
+test('narrow solving', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await solve(page);
   await type(page, 'jonlrvae');

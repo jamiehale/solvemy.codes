@@ -1,8 +1,8 @@
 import { letters } from "./letters";
 
-export type Key = Record<string, string>;
+export type PuzzleKey = Record<string, string>;
 
-export const findDuplicates = (key: Key): Set<string> => {
+export const findDuplicateGuesses = (key: PuzzleKey): Set<string> => {
   const keys: Record<string, string[]> = letters
     .split("")
     .reduce((acc, l) => ({ ...acc, [l]: [] }), {});
@@ -18,12 +18,12 @@ export const findDuplicates = (key: Key): Set<string> => {
   return new Set(duplicates);
 };
 
-export const withGuess = (key: Key, letter: string, guess: string): Key => ({
+export const withGuess = (key: PuzzleKey, letter: string, guess: string): PuzzleKey => ({
   ...key,
   [letter]: guess,
 });
 
-export const withoutGuess = (key: Key, letter: string): Key => {
+export const withoutGuess = (key: PuzzleKey, letter: string): PuzzleKey => {
   const rest = { ...key };
   delete rest[letter];
   return rest;
