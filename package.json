@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:e2e:docker": "docker run --rm --ipc=host --user \"$(id -u):$(id -g)\" -e HOME=/tmp -v \"$PWD\":/work -w /work mcr.microsoft.com/playwright:v1.65.1-noble npx playwright test"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.5",
@@ -19,7 +20,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@playwright/test": "^1.65.1",
+    "@playwright/test": "1.65.1",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

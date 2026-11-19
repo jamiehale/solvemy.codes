@@ -1,6 +1,9 @@
 import { expect, test } from '@playwright/test';
 import { open, solve, type } from './helpers';
 
+const inPlaywrightImage = process.env.PLAYWRIGHT_BROWSERS_PATH === '/ms-playwright';
+test.skip(!inPlaywrightImage, 'Baselines match only the Playwright Docker image; run npm run test:e2e:docker');
+
 test('setup form', async ({ page }) => {
   await open(page);
   await expect(page).toHaveScreenshot('setup.png', { fullPage: true });

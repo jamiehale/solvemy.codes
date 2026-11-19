@@ -41,7 +41,7 @@ From group 5 on, "passes the gate" means `npx vitest run`, `npm run lint`, `npm 
 
 - [x] 6.1 Add `.github/workflows/ci.yml` as in design Decision 12 (pull requests + `workflow_call`, `ubuntu-24.04`, Node from `.nvmrc`, unit, lint, build, Playwright Chromium with deps, e2e, `dist` artifact, report on failure). Verify with `npx --yes @action-validator/cli .github/workflows/ci.yml` or an equivalent schema check.
 - [x] 6.2 Change `.github/workflows/deploy.yaml`: add a `ci` job calling `ci.yml`; the deploy job `needs: ci`, checks out only `wrangler.jsonc`, downloads the `dist` artifact to `dist/`, and runs the pinned wrangler. Keep triggers, `paths-ignore`, environment, and concurrency. Verify with the same schema check and `npx wrangler@4.156.2 deploy --dry-run` after a local build.
-- [ ] 6.3 Open the PR and check the CI run. If the visual suite fails only on font rendering, move the e2e job into the Playwright Docker image and regenerate baselines with the same image (design Risks), then document the `docker run` command in `CLAUDE.md`. Verify that CI passes on the PR.
+- [ ] 6.3 Open the PR and check the CI run. Run the CI job in the Playwright Docker image instead of installing Chromium with `--with-deps`, regenerate the baselines in that image (`npm run test:e2e:docker -- --update-snapshots`), and document it in `CLAUDE.md`. Verify that CI passes on the PR.
 - [x] 6.4 Update `CLAUDE.md`'s Deploy section and the README for the CI gate and the artifact-based deploy. Verify the docs match both workflow files.
 
 ## 7. Integration check

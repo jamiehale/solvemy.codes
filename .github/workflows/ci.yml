@@ -14,8 +14,12 @@ concurrency:
 
 jobs:
   test-and-build:
-    # Pinned: the visual baselines pass on this image; a new OS release can change font rendering
     runs-on: ubuntu-24.04
+    # Chromium and its system libraries come preinstalled, and the visual baselines were made in
+    # this image. Keep the tag equal to the exact @playwright/test version in package.json.
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.1-noble
+      options: --ipc=host
     timeout-minutes: 20
 
     steps:
@@ -39,9 +43,6 @@ jobs:
 
       - name: Build
         run: npm run build
-
-      - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
 
       - name: E2E tests
         run: npm run test:e2e

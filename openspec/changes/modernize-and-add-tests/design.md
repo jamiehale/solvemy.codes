@@ -56,13 +56,13 @@ Steps, one commit each: (a) minor/patch bumps (`react`/`react-dom` 19.3, `tailwi
 `.nvmrc` pins 26, the Active LTS since October 2026 and the version installed locally. `../soduko` pinned 24 before 26 reached LTS. CI and deploy read `.nvmrc`; `@types/node` follows it.
 
 **10. Visual baselines like `../soduko`.**
-`toHaveScreenshot()` with `animations: 'disabled'`, `maxDiffPixelRatio: 0.01`, and a per-pixel `threshold` of 0.05 so `gray-200` is not read as white. States: setup form (default puzzle), game with guesses, a selected letter, duplicate guesses, and the game at 390×844. Baselines are committed with Playwright's Linux suffix.
+`toHaveScreenshot()` with `animations: 'disabled'`, `maxDiffPixelRatio: 0.01`, and a per-pixel `threshold` of 0.05 so `gray-200` is not read as white. States: setup form (default puzzle), game with guesses, a selected letter, duplicate guesses, and the game at 390×844. Baselines are committed with Playwright's Linux suffix. They are generated in the Playwright Docker image (`npm run test:e2e:docker`), the same image CI runs in, and `visual.spec.ts` skips anywhere else. Changed during apply: the first CI run spent minutes in `playwright install --with-deps` (apt), and the image's fonts differ from Debian's (2 of 5 shots failed), so the planned fallback became the plan. The image's sans font has no bold, so baselines show the bold letters as regular; colors, layout, and spacing are still locked.
 
 **11. Saved-puzzle fixture from the current app.**
 `e2e/capture-fixture.ts` (not matched by the suite) drives the current app: types a cipher with capitals and punctuation, sets a clue, clicks Done, and writes `localStorage.puzzle` to `e2e/fixtures/saved-puzzle-882117f.json`, named for the commit it came from. It runs once, before any source change, and the fixture is never regenerated.
 
 **12. CI like `../soduko`.**
-`.github/workflows/ci.yml` runs on pull requests and as a reusable workflow (`workflow_call`): `npm ci`, `npx vitest run`, `npm run lint`, `npm run build`, `npx playwright install --with-deps chromium`, `npm run test:e2e`, then uploads `dist/` as the `dist` artifact (and the Playwright report on failure). It is pinned to `runs-on: ubuntu-24.04`. `deploy.yaml` keeps its name, triggers, `paths-ignore`, environment, and concurrency; it gets a `ci` job that calls `ci.yml`, and its deploy job `needs: ci`, checks out only `wrangler.jsonc`, downloads the `dist` artifact, and runs the pinned wrangler. Action majors match `../soduko` (`checkout@v7`, `setup-node@v7`, `upload-artifact@v7`, `download-artifact@v8`).
+`.github/workflows/ci.yml` runs on pull requests and as a reusable workflow (`workflow_call`): `npm ci`, `npx vitest run`, `npm run lint`, `npm run build`, `npx playwright install --with-deps chromium`, `npm run test:e2e`, then uploads `dist/` as the `dist` artifact (and the Playwright report on failure). It runs in `container: mcr.microsoft.com/playwright:v1.65.1-noble` (`--ipc=host`) with no browser install step; `@playwright/test` is pinned to exactly the image's version. `deploy.yaml` keeps its name, triggers, `paths-ignore`, environment, and concurrency; it gets a `ci` job that calls `ci.yml`, and its deploy job `needs: ci`, checks out only `wrangler.jsonc`, downloads the `dist` artifact, and runs the pinned wrangler. Action majors match `../soduko` (`checkout@v7`, `setup-node@v7`, `upload-artifact@v7`, `download-artifact@v8`).
 
 **13. Lint covers the tests.**
 `eslint.config.js` adds Node globals for `e2e/**` and the root config files, and ignores `playwright-report/` and `test-results/`. `.gitignore` adds those two directories.
@@ -77,7 +77,8 @@ Steps, one commit each: (a) minor/patch bumps (`react`/`react-dom` 19.3, `tailwi
 
 ## Risks / Trade-offs
 
-- [The app uses the system monospace font, so screenshots made on Debian 13 may not match ubuntu-24.04 in CI] → Check the first CI run. If the only diffs are font rendering, generate the baselines and run the e2e job in the Playwright Docker image (`mcr.microsoft.com/playwright:v<version>-noble`) instead, and document the `docker run` command for `--update-snapshots`. Never update baselines to hide a real diff.
+- [Screenshots depend on the machine's fonts] → Baselines and CI both use the Playwright Docker image; host runs skip the visual spec. Never update baselines to hide a real diff.
+- [The image tag and `@playwright/test` drift apart] → `@playwright/test` is pinned exactly; `CLAUDE.md` says to bump the package, the `ci.yml` tag, and the `test:e2e:docker` script together.
 - [Vite 8 swaps the bundler to Rolldown, and plugin-react 6 drops Babel for Oxc, so production output can differ from dev] → Run the e2e and visual suites once against `npm run preview` at step (b).
 - [TypeScript 6 deprecates options and changes defaults] → `tsconfig*.json` already sets `types`, `moduleResolution: bundler`, and `target` explicitly. Treat any new deprecation warning as a failure of the step and fix the config.
 - [ESLint 10 or the new `globals` flags code that passed before] → Fix only trivial, behavior-neutral findings; disable the rest per line with a reason.
