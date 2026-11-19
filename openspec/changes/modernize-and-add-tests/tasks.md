@@ -26,8 +26,8 @@ From group 5 on, "passes the gate" means `npx vitest run`, `npm run lint`, `npm 
 
 ## 4. Visual baselines and docs
 
-- [ ] 4.1 Add `e2e/visual.spec.ts` with `toHaveScreenshot()` for the states in design Decision 10. Generate baselines with `npx playwright test e2e/visual.spec.ts --update-snapshots`, check each image by eye against the running app, and commit them. Verify that a second `npm run test:e2e` passes with no snapshot changes.
-- [ ] 4.2 Update `CLAUDE.md` (remove "There is no test suite"; add the test commands, a single spec, `-g`, `--update-snapshots` and when to use it, where tests live, the `data-` hooks, the seeding helper, the fixture rule, `src/key.ts`, `.nvmrc`) and the README's Developing section. Verify each documented command runs as written.
+- [x] 4.1 Add `e2e/visual.spec.ts` with `toHaveScreenshot()` for the states in design Decision 10. Generate baselines with `npx playwright test e2e/visual.spec.ts --update-snapshots`, check each image by eye against the running app, and commit them. Verify that a second `npm run test:e2e` passes with no snapshot changes.
+- [x] 4.2 Update `CLAUDE.md` (remove "There is no test suite"; add the test commands, a single spec, `-g`, `--update-snapshots` and when to use it, where tests live, the `data-` hooks, the seeding helper, the fixture rule, `src/key.ts`, `.nvmrc`) and the README's Developing section. Verify each documented command runs as written.
 
 ## 5. Dependency upgrades
 

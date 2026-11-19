@@ -13,8 +13,13 @@ npm run build
 
 ## Developing
 
+Use the Node version in `.nvmrc`.
+
 ```
-npm run dev
+npm run dev        # dev server on http://localhost:5173
+npm test           # unit tests (Vitest)
+npm run test:e2e   # browser tests (Playwright); run `npx playwright install chromium` once first
+npm run lint
 ```
 
 ## Deploy
