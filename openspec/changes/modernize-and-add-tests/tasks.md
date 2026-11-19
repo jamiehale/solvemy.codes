@@ -18,11 +18,11 @@ From group 5 on, "passes the gate" means `npx vitest run`, `npm run lint`, `npm 
 
 - [x] 3.1 Add `playwright.config.ts` (Chromium, viewport 1024×800, `webServer: npm run dev` on 5173, `reuseExistingServer`, the screenshot settings from design Decision 10), `tsconfig.e2e.json` referenced from `tsconfig.json`, `server`/`preview` `port: 5173, strictPort: true` in `vite.config.ts`, Node globals for `e2e/**` and root configs in `eslint.config.js`, and a `test:e2e` script. Verify that `npm run test:e2e` runs an empty suite cleanly and `npm run build` type-checks `e2e/`.
 - [x] 3.2 Add the `data-` hooks from design Decision 5 to `Board`, `Pair`/`Letter`, and `PuzzleKey`. Verify in the browser DOM that the default puzzle shows 13 `[data-pair]` and 26 `[data-key]` elements, and that the page looks unchanged.
-- [ ] 3.3 Add `e2e/helpers.ts`: seed `localStorage.puzzle` with `addInitScript`, start solving (click Done), read a pair's cipher and guess text, read a key entry's text, background, and border colors, and resolve expected Tailwind colors through a probe element (design Decision 6). Verify through the first spec in 3.4.
-- [ ] 3.4 Add `e2e/puzzle-setup.spec.ts` covering every scenario in `specs/puzzle-setup/spec.md`. Verify that `npm run test:e2e` passes.
-- [ ] 3.5 Add `e2e/letter-assignment.spec.ts` covering every scenario in `specs/letter-assignment/spec.md`. Verify that `npm run test:e2e` passes.
-- [ ] 3.6 Add `e2e/board-display.spec.ts` and `e2e/puzzle-key.spec.ts` covering every scenario in those specs except the visual-baseline one (wide and narrow layout checked through element bounding boxes, source link through `href` and `target`). Verify that `npm run test:e2e` passes.
-- [ ] 3.7 Add `e2e/puzzle-persistence.spec.ts` covering every scenario in `specs/puzzle-persistence/spec.md`, including loading `e2e/fixtures/saved-puzzle-882117f.json`. Verify that `npm run test:e2e` passes.
+- [x] 3.3 Add `e2e/helpers.ts`: seed `localStorage.puzzle` with `addInitScript`, start solving (click Done), read a pair's cipher and guess text, read a key entry's text, background, and border colors, and resolve expected Tailwind colors through a probe element (design Decision 6). Verify through the first spec in 3.4.
+- [x] 3.4 Add `e2e/puzzle-setup.spec.ts` covering every scenario in `specs/puzzle-setup/spec.md`. Verify that `npm run test:e2e` passes.
+- [x] 3.5 Add `e2e/letter-assignment.spec.ts` covering every scenario in `specs/letter-assignment/spec.md`. Verify that `npm run test:e2e` passes.
+- [x] 3.6 Add `e2e/board-display.spec.ts` and `e2e/puzzle-key.spec.ts` covering every scenario in those specs except the visual-baseline one (wide and narrow layout checked through element bounding boxes, source link through `href` and `target`). Verify that `npm run test:e2e` passes.
+- [x] 3.7 Add `e2e/puzzle-persistence.spec.ts` covering every scenario in `specs/puzzle-persistence/spec.md`, including loading `e2e/fixtures/saved-puzzle-882117f.json`. Verify that `npm run test:e2e` passes.
 
 ## 4. Visual baselines and docs
 
