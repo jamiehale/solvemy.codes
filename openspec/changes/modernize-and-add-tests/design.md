@@ -73,6 +73,7 @@ Steps, one commit each: (a) minor/patch bumps (`react`/`react-dom` 19.3, `tailwi
 - Clicking a key entry while another letter is selected clears the selected letter's guess. Specified as is in `letter-assignment`.
 - Entry class strings include `undefined`/`false`, `Button` accepts an unused `color` prop, and `App` logs the puzzle on every render.
 - Fixed during apply: key entries had no React `key`. Vite 8 forwards browser console errors to the dev server's output, so the warning flooded every e2e run; adding `key={l}` changes no behavior.
+- Found during apply: Tailwind 4.3 changed its default `--font-sans` stack, which moved the key panel's letters in the visual baselines. `src/index.css` pins the 4.1 stack in `@theme`, so the look is unchanged and no baseline was updated.
 
 ## Risks / Trade-offs
 

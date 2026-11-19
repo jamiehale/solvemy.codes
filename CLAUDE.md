@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A small React + TypeScript + Vite + Tailwind v4 web app that helps solve cryptogram (letter substitution) puzzles. Live at https://solvemy.codes. The user enters a cipher and an optional clue, then types letters to assign substitutes.
+A small web app that helps solve cryptogram (letter substitution) puzzles: React 19, TypeScript 6, Vite 8, Tailwind 4, ESLint 10, Vitest 5, Playwright. Live at https://solvemy.codes. The user enters a cipher and an optional clue, then types letters to assign substitutes.
 
 ## Commands
 
@@ -37,6 +37,11 @@ Use npm (`package-lock.json`); the Node version is pinned in `.nvmrc`.
 - Rendering: `Board` splits the cipher on spaces into `Word`s, and each `Word` renders a `Pair` per character (cipher letter above, guess below). Non-letters pass through unchanged.
 - Only lowercase `a`–`z` count as letters (`src/letters.ts`). Inputs are shown uppercase with CSS only.
 - `Stack`, `Letter`, `Button`, `IfElse` are tiny layout/UI helpers; styling is Tailwind classes inline.
+- `src/index.css` pins Tailwind 4.1's `--font-sans` stack. Tailwind 4.3 changed the default to one that renders a different font on Linux; the visual baselines lock the old look in. Don't remove it without checking the visual suite.
+
+## Version holds
+
+- **TypeScript stays on 6.0** (`~6.0.x`): `typescript-eslint` supports only TypeScript `<6.1.0`. Move to 7 when it does.
 
 ## Deploy
 
