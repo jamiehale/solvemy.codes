@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { background, pairs, readPairs, solve, open, textTransform, themeColor, transparent, type, words } from './helpers';
+import { background, borderTopColor, pairs, press, puzzleKeyEntry, readPairs, solve, open, textTransform, themeColor, transparent, type, words } from './helpers';
 
 test('the cipher is split into words', async ({ page }) => {
   await solve(page, { cipher: 'ab cd', clues: {} });
@@ -47,6 +47,51 @@ test('non-letters pass through', async ({ page }) => {
   expect((await readPairs(page))[2]).toEqual(['.', '.']);
   await type(page, '.x');
   expect(await readPairs(page)).toEqual([['a', ''], ['b', ''], ['.', '.']]);
+});
+
+test.describe('pairs of the selected letter are marked', () => {
+  const cipherBorders = (page: Parameters<typeof words>[0]) =>
+    page.getByTestId('cipher').evaluateAll((els) => els.map((el) => getComputedStyle(el).borderTopColor));
+
+  test('select by keyboard', async ({ page }) => {
+    await solve(page, { cipher: 'aba', clues: {} });
+    await type(page, 'a');
+    const red = await themeColor(page, 'red-400');
+    expect(await cipherBorders(page)).toEqual([red, 'rgb(0, 0, 0)', red]);
+  });
+
+  test('select by clicking the puzzle key panel', async ({ page }) => {
+    await solve(page, { cipher: 'ab', clues: {} });
+    await puzzleKeyEntry(page, 'b').click();
+    const red = await themeColor(page, 'red-400');
+    expect(await cipherBorders(page)).toEqual(['rgb(0, 0, 0)', red]);
+  });
+
+  test('guess row unchanged', async ({ page }) => {
+    await solve(page, { cipher: 'ab', clues: { a: 'x' } });
+    await type(page, 'a');
+    expect(await borderTopColor(page.getByTestId('cipher').first())).toBe(await themeColor(page, 'red-400'));
+    expect(await readPairs(page)).toEqual([['a', 'x'], ['b', '']]);
+  });
+
+  test('setting a guess clears the mark', async ({ page }) => {
+    await solve(page, { cipher: 'ab', clues: {} });
+    await type(page, 'ay');
+    expect(await cipherBorders(page)).toEqual(['rgb(0, 0, 0)', 'rgb(0, 0, 0)']);
+  });
+
+  test('clearing a guess clears the mark', async ({ page }) => {
+    await solve(page, { cipher: 'ab', clues: {} });
+    await type(page, 'a');
+    await press(page, 'Escape');
+    expect(await cipherBorders(page)).toEqual(['rgb(0, 0, 0)', 'rgb(0, 0, 0)']);
+  });
+
+  test('selected letter not in the cipher', async ({ page }) => {
+    await solve(page, { cipher: 'ab', clues: {} });
+    await type(page, 'z');
+    expect(await cipherBorders(page)).toEqual(['rgb(0, 0, 0)', 'rgb(0, 0, 0)']);
+  });
 });
 
 test('filled pairs are shaded', async ({ page }) => {

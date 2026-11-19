@@ -22,7 +22,7 @@ export const Solving = ({ puzzle }: SolvingProps) => {
   return (
     <div className="flex md:flex-row flex-col gap-3 justify-between">
       <div className="flex grow border-0 md:border-r-1 md:border-black">
-        <Board puzzle={puzzle.cipher} puzzleKey={puzzleKey} />
+        <Board puzzle={puzzle.cipher} puzzleKey={puzzleKey} selectedLetter={selectedLetter} />
       </div>
       <div className="flex shrink-0">
         <PuzzleKeyPanel
