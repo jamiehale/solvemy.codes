@@ -4,15 +4,15 @@ From group 5 on, "passes the gate" means `npx vitest run`, `npm run lint`, `npm 
 
 ## 1. Baseline and fixture
 
-- [ ] 1.1 Create a branch. Add `.nvmrc` pinning Node 26. Verify that `npm ci` and `npm run build` succeed under Node 26.
-- [ ] 1.2 Add `@playwright/test` as a dev dependency and install Chromium (`npx playwright install chromium`). Add `playwright-report/` and `test-results/` to `.gitignore`. Verify with `npx playwright --version`.
-- [ ] 1.3 Before any `src/` change, write `e2e/capture-fixture.ts` (run with `npx tsx` or `node --experimental-strip-types`, not matched by the suite) that drives the running app: types a cipher with capitals and punctuation, sets a clue, clicks Done, and writes `localStorage.puzzle` to `e2e/fixtures/saved-puzzle-882117f.json`. Run it and commit the fixture. Verify the JSON has `cipher` (lowercase) and `clues` with one entry.
+- [x] 1.1 Create a branch. Add `.nvmrc` pinning Node 26. Verify that `npm ci` and `npm run build` succeed under Node 26.
+- [x] 1.2 Add `@playwright/test` as a dev dependency and install Chromium (`npx playwright install chromium`). Add `playwright-report/` and `test-results/` to `.gitignore`. Verify with `npx playwright --version`.
+- [x] 1.3 Before any `src/` change, write `e2e/capture-fixture.ts` (run with `npx tsx` or `node --experimental-strip-types`, not matched by the suite) that drives the running app: types a cipher with capitals and punctuation, sets a clue, clicks Done, and writes `localStorage.puzzle` to `e2e/fixtures/saved-puzzle-882117f.json`. Run it and commit the fixture. Verify the JSON has `cipher` (lowercase) and `clues` with one entry.
 
 ## 2. Pure key logic and unit tests
 
-- [ ] 2.1 Add `vitest` as a dev dependency, a `test: { environment: 'node', include: ['src/**/*.test.ts'] }` block in `vite.config.ts`, and a `test: vitest` script. Verify that `npx vitest run` runs (with `--passWithNoTests` until 2.3 lands).
-- [ ] 2.2 Move duplicate detection and the set/clear transforms from `src/hooks/puzzle-key.ts` into `src/key.ts` as `findDuplicates`, `withGuess`, and `withoutGuess`, moving the code as is (design Decision 2). `usePuzzleKey` keeps its return shape. Verify that `npm run build` and `npm run lint` pass and the app behaves the same by hand (set, clear, duplicate red, Reset).
-- [ ] 2.3 Add `src/key.test.ts` (duplicates: none, one pair, three-way, cleared clash; `withGuess` adds and replaces without mutating; `withoutGuess` removes and is a no-op for a missing letter) and `src/letters.test.ts` (`isLetter` true for a–z, false for capitals, digits, space, punctuation). Import from `vitest`. Verify with `npx vitest run`.
+- [x] 2.1 Add `vitest` as a dev dependency, a `test: { environment: 'node', include: ['src/**/*.test.ts'] }` block in `vite.config.ts`, and a `test: vitest` script. Verify that `npx vitest run` runs (with `--passWithNoTests` until 2.3 lands).
+- [x] 2.2 Move duplicate detection and the set/clear transforms from `src/hooks/puzzle-key.ts` into `src/key.ts` as `findDuplicates`, `withGuess`, and `withoutGuess`, moving the code as is (design Decision 2). `usePuzzleKey` keeps its return shape. Verify that `npm run build` and `npm run lint` pass and the app behaves the same by hand (set, clear, duplicate red, Reset).
+- [x] 2.3 Add `src/key.test.ts` (duplicates: none, one pair, three-way, cleared clash; `withGuess` adds and replaces without mutating; `withoutGuess` removes and is a no-op for a missing letter) and `src/letters.test.ts` (`isLetter` true for a–z, false for capitals, digits, space, punctuation). Import from `vitest`. Verify with `npx vitest run`.
 
 ## 3. Playwright behavior tests
 
