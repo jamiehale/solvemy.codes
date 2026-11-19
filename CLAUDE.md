@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A small web app that helps solve cryptogram (letter substitution) puzzles: React 19, TypeScript 6, Vite 8, Tailwind 4, ESLint 10, Vitest 5, Playwright. Live at https://solvemy.codes. The user enters a cipher and an optional clue, then types letters to assign substitutes.
+A small web app that helps solve cryptogram (letter substitution) puzzles: React 19, TypeScript 6, Vite 8, Tailwind 4, ESLint 10, Vitest 5, Playwright. Live at https://solvemy.codes. The user enters a cipher and an optional clue, then types letters to set a guess for each cipher letter.
+
+Domain terms (puzzle, cipher, clue, guess, puzzle key, setup, solving, …) are defined in `GLOSSARY.md`. Use them in code, specs, tests, and docs.
 
 ## Commands
 
@@ -23,18 +25,18 @@ Use npm (`package-lock.json`); the Node version is pinned in `.nvmrc`.
 
 ## Tests
 
-- **Unit** (`src/**/*.test.ts`): pure functions only — `src/key.ts` (`findDuplicates`, `withGuess`, `withoutGuess`) and `src/letters.ts`. They import from `vitest` and run in the `node` environment. Keep logic worth unit-testing in pure modules like `src/key.ts`, not inside hooks.
+- **Unit** (`src/**/*.test.ts`): pure functions only — `src/puzzle-key.ts` (`findDuplicateGuesses`, `withGuess`, `withoutGuess`) and `src/letters.ts`. They import from `vitest` and run in the `node` environment. Keep logic worth unit-testing in pure modules like `src/puzzle-key.ts`, not inside hooks.
 - **E2E** (`e2e/*.spec.ts`): one spec per capability in `openspec/specs/`, plus `visual.spec.ts` (screenshots in `e2e/visual.spec.ts-snapshots/`). Baselines come from the `mcr.microsoft.com/playwright:v<version>-noble` image, whose fonts differ from a desktop Linux, so `visual.spec.ts` skips unless it runs in that image (`PLAYWRIGHT_BROWSERS_PATH=/ms-playwright`). That image's sans font has no bold, so the baselines show the bold letters as regular; they still lock colors, layout, and spacing. `@playwright/test` is pinned to an exact version: the image tag in `ci.yml` and the `test:e2e:docker` script must match it, so bump all three together. Screenshots compare with a per-pixel `threshold` of 0.05 (`playwright.config.ts`); the default 0.2 can't tell `gray-200` from white.
-- DOM hooks for tests: `data-testid="board"`, `data-pair` on each pair (with `data-testid="cipher"` / `"guess"` on its boxes), `data-testid="key"` on the key grid, and `data-key="<letter>"` on each key entry. Keep them when refactoring.
-- `e2e/helpers.ts` seeds `localStorage.puzzle` before load (`open(page, puzzle)`, `solve(page, puzzle)` also clicks Done), types through `window` (`type`, `press` blur first so a focused button doesn't also take the key), and reads pair/key text and colors. DOM text is lowercase (uppercase is CSS). Expected colors come from `themeColor`, which resolves Tailwind's `--color-*` variables, so don't hard-code `oklch` values.
+- DOM hooks for tests: `data-testid="board"`, `data-pair` on each pair (with `data-testid="cipher"` / `"guess"` on its boxes), `data-testid="puzzle-key-panel"` on the puzzle key panel's grid, and `data-puzzle-key-entry="<letter>"` on each puzzle key entry. Keep them when refactoring.
+- `e2e/helpers.ts` seeds `localStorage.puzzle` before load (`open(page, puzzle)`, `solve(page, puzzle)` also clicks Done), types through `window` (`type`, `press` blur first so a focused button doesn't also take the key), and reads the text and colors of pairs and puzzle key entries. DOM text is lowercase (uppercase is CSS). Expected colors come from `themeColor`, which resolves Tailwind's `--color-*` variables, so don't hard-code `oklch` values.
 - `e2e/fixtures/saved-puzzle-882117f.json` is a real save from before tests existed; never regenerate it. `e2e/capture-fixture.ts` (`node e2e/capture-fixture.ts <url> <out>`, with the dev server running) exists only to capture fixtures for future formats.
 
 ## Architecture
 
-- `App` switches between two modes: `GameSetup` (edit the puzzle) and `Game` (solve it). The current `Puzzle` (`{ cipher, clues }`, see `src/types.ts`) is saved in localStorage under the key `puzzle` via `useLocalStorage`. Solving progress (the key) is not saved; it resets to the clues on reload or on Reset.
-- `Game` wires two hooks together:
-  - `usePuzzleKey` (`src/hooks/puzzle-key.ts`) holds the substitution map (cipher letter → guessed letter) and computes `duplicateKeys` — cipher letters that map to the same guess, which `PuzzleKey` highlights in red. The map transforms and duplicate detection are pure functions in `src/key.ts`.
-  - `useGameInput` (`src/hooks/game-input.ts`) listens for `keydown` on `window`. It is a two-step state machine: the first letter typed (or clicked in `PuzzleKey`) selects a cipher letter (`settingLetter`); the next letter sets its substitute, and Space/Escape clears it.
+- `App` switches between two modes: `Setup` (edit the puzzle) and `Solving` (solve it). The current `Puzzle` (`{ cipher, clues }`, see `src/types.ts`) is saved in localStorage under the key `puzzle` via `useLocalStorage`. Solving progress (the puzzle key) is not saved; it resets to the clues on reload or on Reset.
+- `Solving` wires two hooks together:
+  - `usePuzzleKey` (`src/hooks/puzzle-key.ts`) holds the puzzle key (cipher letter → guess) and computes `duplicateGuesses`: the cipher letters that share a guess, which `PuzzleKeyPanel` highlights in red. The puzzle key transforms and duplicate detection are pure functions in `src/puzzle-key.ts`.
+  - `useSolvingInput` (`src/hooks/solving-input.ts`) listens for `keydown` on `window`. It is a two-step state machine: the first letter typed (or clicked in `PuzzleKeyPanel`) selects a cipher letter (`selectedLetter`); the next letter sets its guess, and Space/Escape clears it.
 - Rendering: `Board` splits the cipher on spaces into `Word`s, and each `Word` renders a `Pair` per character (cipher letter above, guess below). Non-letters pass through unchanged.
 - Only lowercase `a`–`z` count as letters (`src/letters.ts`). Inputs are shown uppercase with CSS only.
 - `Stack`, `Letter`, `Button`, `IfElse` are tiny layout/UI helpers; styling is Tailwind classes inline.

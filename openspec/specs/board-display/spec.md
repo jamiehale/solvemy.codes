@@ -42,24 +42,24 @@ The top box of a pair SHALL have a grey background when the bottom row shows som
 - **THEN** the `A` box is grey and the `B` box is not
 
 ### Requirement: Page layout
-Every page SHALL show the heading "solve my . codes" and a "View source on GitHub" corner link to `https://github.com/jamiehale/solvemy.codes` that opens in a new tab. While solving, at widths of 768px and up the board SHALL sit on the left with a vertical rule, and the key panel on the right; below 768px the key panel SHALL sit under the board.
+Every page SHALL show the heading "solve my . codes" and a "View source on GitHub" corner link to `https://github.com/jamiehale/solvemy.codes` that opens in a new tab. While solving, at widths of 768px and up the board SHALL sit on the left with a vertical rule, and the puzzle key panel on the right; below 768px the puzzle key panel SHALL sit under the board.
 
 #### Scenario: Wide screen
 - **GIVEN** a 1024px-wide window
 - **WHEN** the user is solving
-- **THEN** the key panel is to the right of the board
+- **THEN** the puzzle key panel is to the right of the board
 
 #### Scenario: Narrow screen
 - **GIVEN** a 390px-wide window
 - **WHEN** the user is solving
-- **THEN** the key panel is below the board
+- **THEN** the puzzle key panel is below the board
 
 #### Scenario: Source link
 - **WHEN** any page shows
 - **THEN** a corner link to the GitHub repository is shown
 
 ### Requirement: The look is locked by visual baselines
-The setup form, the game with guesses, a selected letter, duplicate guesses, and the narrow layout SHALL match their committed screenshots. A visual change SHALL update the screenshots on purpose, in the same commit.
+The setup form, solving with guesses, a selected letter, duplicate guesses, and the narrow layout SHALL match their committed screenshots. A visual change SHALL update the screenshots on purpose, in the same commit.
 
 #### Scenario: Unchanged rendering
 - **WHEN** the visual suite runs against an unchanged app

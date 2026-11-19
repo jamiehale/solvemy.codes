@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Lets the user build the substitution key while solving: pick a cipher letter, then give it a guess or clear it.
+Lets the user build the puzzle key while solving: pick a cipher letter, then give it a guess or clear it.
 
 ## Requirements
 
@@ -51,33 +51,33 @@ While a cipher letter is selected, Space or Escape SHALL remove that letter's gu
 - **THEN** `b` still has no guess and no letter is selected
 
 ### Requirement: Other keys keep the selection
-While a cipher letter is selected, any key other than a lowercase letter, Space, or Escape SHALL leave the key and the selection unchanged.
+While a cipher letter is selected, any key other than a lowercase letter, Space, or Escape SHALL leave the puzzle key and the selection unchanged.
 
 #### Scenario: Digit while selected
 - **GIVEN** `b` is selected
 - **WHEN** the user types `5`
 - **THEN** `b` is still selected and its guess is unchanged
 
-### Requirement: Clicking a key entry selects it
-Clicking a letter in the key panel SHALL select that cipher letter. If another letter was already selected, its guess SHALL be removed first. Clicking the selected letter again SHALL remove its guess and keep it selected.
+### Requirement: Clicking a puzzle key entry selects it
+Clicking a letter in the puzzle key panel SHALL select that cipher letter. If another letter was already selected, its guess SHALL be removed first. Clicking the selected letter again SHALL remove its guess and keep it selected.
 
 #### Scenario: Click with nothing selected
 - **GIVEN** no letter is selected
-- **WHEN** the user clicks `c` in the key panel
+- **WHEN** the user clicks `c` in the puzzle key panel
 - **THEN** `c` is selected
 
 #### Scenario: Click while another letter is selected
 - **GIVEN** `b` has guess `y` and `b` is selected
-- **WHEN** the user clicks `c` in the key panel
+- **WHEN** the user clicks `c` in the puzzle key panel
 - **THEN** `b` has no guess and `c` is selected
 
 #### Scenario: Click the selected letter
 - **GIVEN** `b` has guess `y` and `b` is selected
-- **WHEN** the user clicks `b` in the key panel
+- **WHEN** the user clicks `b` in the puzzle key panel
 - **THEN** `b` has no guess and `b` is still selected
 
 ### Requirement: Reset restores the clues
-The Reset button SHALL replace the whole key with the puzzle's clues, removing every guess the user set and restoring any clue they changed. It SHALL NOT change which letter is selected.
+The Reset button SHALL replace the whole puzzle key with the puzzle's clues, removing every guess the user set and restoring any clue they changed. It SHALL NOT change which letter is selected.
 
 #### Scenario: Reset after guesses
 - **GIVEN** the clue `a` = `x`, and the user has set `b` = `y` and `a` = `w`
@@ -90,7 +90,7 @@ The Reset button SHALL replace the whole key with the puzzle's clues, removing e
 - **THEN** `b` is still selected
 
 ### Requirement: Guesses are not saved
-The key SHALL start from the puzzle's clues each time solving starts, including after a page reload.
+The puzzle key SHALL start from the puzzle's clues each time solving starts, including after a page reload.
 
 #### Scenario: Reload while solving
 - **GIVEN** the user is solving and has set `b` = `y`

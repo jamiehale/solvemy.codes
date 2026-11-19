@@ -2,7 +2,7 @@
 
 [https://solvemy.codes](https://solvemy.codes)
 
-This is a quick little tool to help me solve cryptogram-style puzzles. Use the keyboard. Type a letter to set it's substitute. ESC or SPACE to clear a letter.
+This is a quick little tool to help me solve cryptogram-style puzzles. Use the keyboard. Type a cipher letter, then the letter you guess it stands for. ESC or SPACE clears the guess.
 
 ## Building
 

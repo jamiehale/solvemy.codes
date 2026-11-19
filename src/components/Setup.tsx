@@ -3,7 +3,7 @@ import type { Puzzle } from "../types";
 import { Stack } from "./Stack";
 import { Button } from "./Button";
 
-interface GameSetupProps {
+interface SetupProps {
   initialPuzzle: Puzzle;
   onSet: (puzzle: Puzzle) => void;
 }
@@ -13,7 +13,7 @@ const useInitialClue = (clues: Puzzle["clues"]): { initialClueLetter: string, in
   return { initialClueLetter: initialClueLetter, initialClueValue: initialClueLetter === '' ? '' : clues[initialClueLetter] ?? '' }
 }
 
-export const GameSetup = ({ initialPuzzle, onSet }: GameSetupProps) => {
+export const Setup = ({ initialPuzzle, onSet }: SetupProps) => {
   const [cipher, setCipher] = useState(initialPuzzle.cipher);
   const { initialClueLetter, initialClueValue } = useInitialClue(initialPuzzle.clues);
   const [clueLetter, setClueLetter] = useState<string>(initialClueLetter);

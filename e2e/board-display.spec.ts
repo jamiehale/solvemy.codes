@@ -66,16 +66,16 @@ test.describe('page layout', () => {
     await page.setViewportSize({ width: 1024, height: 800 });
     await solve(page);
     const board = await box(page, 'board');
-    const key = await box(page, 'key');
-    expect(key.x).toBeGreaterThanOrEqual(board.x + board.width);
+    const panel = await box(page, 'puzzle-key-panel');
+    expect(panel.x).toBeGreaterThanOrEqual(board.x + board.width);
   });
 
   test('narrow screen', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await solve(page);
     const board = await box(page, 'board');
-    const key = await box(page, 'key');
-    expect(key.y).toBeGreaterThanOrEqual(board.y + board.height);
+    const panel = await box(page, 'puzzle-key-panel');
+    expect(panel.y).toBeGreaterThanOrEqual(board.y + board.height);
   });
 
   test('heading and source link on the setup form', async ({ page }) => {

@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test';
-import { done, guessOf, keyEntry, keyText, press, solve, type } from './helpers';
+import { done, guessOf, puzzleKeyEntry, puzzleKeyText, press, solve, type } from './helpers';
 
 const puzzle = { cipher: 'abc', clues: { a: 'x' } };
 
-const selected = async (page: Parameters<typeof keyText>[0]) => {
+const selected = async (page: Parameters<typeof puzzleKeyText>[0]) => {
   const found: string[] = [];
   for (const l of 'abcdefghijklmnopqrstuvwxyz') {
-    if ((await keyText(page, l)).endsWith('=?')) found.push(l);
+    if ((await puzzleKeyText(page, l)).endsWith('=?')) found.push(l);
   }
   return found;
 };
@@ -97,10 +97,10 @@ test('other keys keep the selection', async ({ page }) => {
   expect(await guessOf(page, 'b')).toBe('y');
 });
 
-test.describe('clicking a key entry selects it', () => {
+test.describe('clicking a puzzle key entry selects it', () => {
   test('click with nothing selected', async ({ page }) => {
     await solve(page, puzzle);
-    await keyEntry(page, 'c').click();
+    await puzzleKeyEntry(page, 'c').click();
     expect(await selected(page)).toEqual(['c']);
   });
 
@@ -108,7 +108,7 @@ test.describe('clicking a key entry selects it', () => {
     await solve(page, puzzle);
     await type(page, 'by');
     await type(page, 'b');
-    await keyEntry(page, 'c').click();
+    await puzzleKeyEntry(page, 'c').click();
     expect(await guessOf(page, 'b')).toBe('');
     expect(await selected(page)).toEqual(['c']);
   });
@@ -117,7 +117,7 @@ test.describe('clicking a key entry selects it', () => {
     await solve(page, puzzle);
     await type(page, 'by');
     await type(page, 'b');
-    await keyEntry(page, 'b').click();
+    await puzzleKeyEntry(page, 'b').click();
     expect(await selected(page)).toEqual(['b']);
     await press(page, 'Escape');
     expect(await guessOf(page, 'b')).toBe('');
@@ -125,7 +125,7 @@ test.describe('clicking a key entry selects it', () => {
 
   test('typing after a click sets the guess', async ({ page }) => {
     await solve(page, puzzle);
-    await keyEntry(page, 'c').click();
+    await puzzleKeyEntry(page, 'c').click();
     await type(page, 'z');
     expect(await guessOf(page, 'c')).toBe('z');
   });
