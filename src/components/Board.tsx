@@ -16,7 +16,7 @@ export const Board = ({
   ));
 
   return (
-    <div className='flex flex-wrap gap-5'>{words}</div>
+    <div data-testid='board' className='flex flex-wrap gap-5'>{words}</div>
   );
 };
 

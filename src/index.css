@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+/* Tailwind 4.3 changed the default sans stack; this keeps the font the app was designed with */
+@theme {
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}

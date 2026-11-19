@@ -5,7 +5,7 @@ export const useLocalStorage = <T>(key: string, initialValue: T): [T, (t: T) => 
     try {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) as T : initialValue;
-    } catch (e) {
+    } catch {
       return initialValue;
     }
   });
@@ -14,7 +14,9 @@ export const useLocalStorage = <T>(key: string, initialValue: T): [T, (t: T) => 
     try {
       setStoredValue(value);
       window.localStorage.setItem(key, JSON.stringify(value));
-    } catch (e) { }
+    } catch {
+      // Storage can be full or blocked; the puzzle still works for this session
+    }
   };
 
   return [storedValue, setValue];

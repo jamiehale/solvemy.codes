@@ -1,6 +1,6 @@
 import React from "react";
 
-interface GitHubLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> { }
+type GitHubLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
 export const GitHubLink: React.FC<GitHubLinkProps> = (props) => (
   <>

@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
-import { letters } from "../letters";
+import { findDuplicates, withGuess, withoutGuess } from "../key";
 
 export interface PuzzleKeyHook {
   puzzleKey: Record<string, string>;
@@ -15,21 +15,7 @@ export const usePuzzleKey = (initialClues: Record<string, string> = {}) => {
   const [puzzleKey, setPuzzleKey] =
     useState<Record<string, string>>(initialClues);
 
-  const duplicateKeys = useMemo(() => {
-    const keys: Record<string, string[]> = letters
-      .split("")
-      .reduce((acc, l) => ({ ...acc, [l]: [] }), {});
-    Object.keys(puzzleKey).forEach((from) => {
-      keys[puzzleKey[from]] = [...keys[puzzleKey[from]], from];
-    });
-    const duplicates = Object.keys(keys).reduce<string[]>((acc, key) => {
-      if (keys[key].length > 1) {
-        return [...acc, ...keys[key]];
-      }
-      return acc;
-    }, []);
-    return new Set(duplicates);
-  }, [puzzleKey]);
+  const duplicateKeys = useMemo(() => findDuplicates(puzzleKey), [puzzleKey]);
 
   const reset = useCallback(
     (clues: Record<string, string>) => {
@@ -40,18 +26,14 @@ export const usePuzzleKey = (initialClues: Record<string, string> = {}) => {
 
   const set = useCallback(
     (key: string, value: string) => {
-      setPuzzleKey({
-        ...puzzleKey,
-        [key]: value,
-      });
+      setPuzzleKey(withGuess(puzzleKey, key, value));
     },
     [puzzleKey, setPuzzleKey],
   );
 
   const clear = useCallback(
     (key: string) => {
-      const { [key]: _, ...newPuzzleKey } = puzzleKey;
-      setPuzzleKey(newPuzzleKey);
+      setPuzzleKey(withoutGuess(puzzleKey, key));
     },
     [puzzleKey, setPuzzleKey],
   );

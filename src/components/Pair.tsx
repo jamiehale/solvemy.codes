@@ -10,8 +10,8 @@ export const Pair = ({
   letter,
   solution,
 }: PairProps) => (
-  <Stack>
-    <Letter outlined className={`${solution !== ' ' ? 'bg-gray-200' : ''}`}>{letter}</Letter>
-    {solution === ' ' ? <Letter>&nbsp;</Letter> : <Letter>{solution}</Letter>}
+  <Stack data-pair>
+    <Letter data-testid="cipher" outlined className={`${solution !== ' ' ? 'bg-gray-200' : ''}`}>{letter}</Letter>
+    {solution === ' ' ? <Letter data-testid="guess">&nbsp;</Letter> : <Letter data-testid="guess">{solution}</Letter>}
   </Stack>
 );
